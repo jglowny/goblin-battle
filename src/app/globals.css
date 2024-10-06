@@ -1,12 +1,21 @@
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #000;
+  --foreground: hsl(0, 0%, 9%);
+}
+
+@font-face {
+  font-family: "TheGoodMonolith";
+  font-style: normal;
+  font-weight: 500;
+  src: local("TheGoodMonolith"),
+    url("https://fonts.cdnfonts.com/s/32398/TheGoodMonolith.woff")
+      format("woff");
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: #000;
+    --foreground: #000;
   }
 }
 
@@ -14,12 +23,13 @@ html,
 body {
   max-width: 100vw;
   overflow-x: hidden;
+  font-family: "TheGoodMonolith", sans-serif;
 }
 
 body {
   color: var(--foreground);
   background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: "TheGoodMonolith", Arial, Helvetica, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
