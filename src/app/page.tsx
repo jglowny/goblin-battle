@@ -2,12 +2,11 @@
 import React, { useEffect, useState } from "react";
 import CssBaseline from "@mui/material/CssBaseline";
 import Container from "@mui/material/Container";
-// eslint-disable-next-line @typescript-eslint/no-unused-expressions
 import useLocalStorage from "@/hooks/useLocalStorage";
 import { CreateTeam } from "../components/CreateTeam";
 import dynamic from "next/dynamic";
 import { BattleTeams } from "@/components/BattleTeams";
-import type { Team, Teams } from "./../types/type";
+import type { Team, UpdateStatsFunction } from "./../types/type";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid2";
 const NoSSR = dynamic(
@@ -20,21 +19,23 @@ const NoSSR = dynamic(
 export default function Home() {
   const [, setValue] = useLocalStorage("teams", []);
   const [teams, setTeams] = useState<Team[]>([]);
-  const addNewTeam = (data: Team[]) => {
+  const addNewTeam = (data: Team[]): void => {
     setValue(data);
     setTeams(data);
   };
 
-  const updateStats = (
-    teams: Teams,
-    winTeamName: unknown,
-    looseTeamName: unknown,
-    type: string
-  ): any => {
-    const newTeams: Teams = [...teams];
-    const winTeam: any = newTeams.find((team) => team.name === winTeamName);
-    const looseTeam: any = newTeams.find((team) => team.name === looseTeamName);
-    if (type === "teamA") {
+  const updateStats: UpdateStatsFunction = (
+    updateTeams,
+    updateWinTeam,
+    updateLooseTeamName,
+    updateType
+  ) => {
+    const newTeams = [...updateTeams];
+    const winTeam: Team | null =
+      newTeams.find((team) => team.name === updateWinTeam) || null;
+    const looseTeam: Team | null =
+      newTeams.find((team) => team.name === updateLooseTeamName) || null;
+    if (updateType === "teamA" && winTeam && looseTeam) {
       winTeam.battle = winTeam.battle + 1;
       winTeam.victories = winTeam.victories + 1;
       looseTeam.battle = looseTeam.battle + 1;
@@ -43,7 +44,7 @@ export default function Home() {
       setValue(teams);
       return;
     }
-    if (type === "teamB") {
+    if (updateType === "teamB" && winTeam && looseTeam) {
       winTeam.battle = winTeam.battle + 1;
       winTeam.lost = winTeam.lost + 1;
       looseTeam.battle = looseTeam.battle + 1;
@@ -52,7 +53,7 @@ export default function Home() {
       setValue(teams);
       return;
     }
-    if (type === "draw") {
+    if (updateType === "draw" && winTeam && looseTeam) {
       winTeam.battle = winTeam.battle + 1;
       winTeam.victories = winTeam.victories + 1;
       looseTeam.battle = looseTeam.battle + 1;
@@ -76,16 +77,6 @@ export default function Home() {
     <>
       <CssBaseline>
         <Container maxWidth="xl" sx={{ p: "20px" }}>
-          {/* <Box
-            component="div"
-            sx={{ color: "white", bgcolor: "#000", height: "100vh" }}
-          >
-            <CreateTeam teams={teams} addNewTeam={addNewTeam} />
-            {teams.length > 1 && (
-              <BattleTeams teams={teams} updateStats={updateStats} />
-            )}
-            {teams && teams?.length > 0 && <NoSSR data={teams}></NoSSR>}
-          </Box> */}
           <h1>Goblin Battle </h1>
 
           <Box sx={{ flexGrow: 1 }}>

@@ -1,10 +1,9 @@
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import type { Team, Teams } from "../../types/type";
+import type { Team, Teams, UpdateStatsFunction } from "../../types/type";
 import { useState } from "react";
 import Grid from "@mui/material/Grid2";
 import { RenderTeam, RenderResult, RenderScore } from "../BattleTeams/";
-
 import {
   randomTeam,
   getRandomGoblin,
@@ -13,7 +12,7 @@ import {
 
 type Props = {
   teams: Teams;
-  updateStats: any;
+  updateStats: UpdateStatsFunction;
 };
 
 const initialValue = {
@@ -31,7 +30,6 @@ export const BattleTeams = ({ teams, updateStats }: Props) => {
   const [resultsTeamA, setResultsTeamA] = useState(0);
   const [resultsTeamB, setResultsTeamB] = useState(0);
   const [disabledButtonBattle, setDisabledButtonBattle] = useState(true);
-
   const resetStat = () => {
     setRound([]);
     setScore(initialValue);
@@ -129,7 +127,6 @@ export const BattleTeams = ({ teams, updateStats }: Props) => {
     <Box
       sx={{
         minHeight: "200px",
-        maxHeight: "420px",
         marginBlock: "20px",
         p: "20px",
         border: 1,

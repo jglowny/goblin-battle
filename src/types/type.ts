@@ -20,3 +20,10 @@ export type BattleResult = {
   goblinAAlive: boolean;
   goblinBAlive: boolean;
 };
+
+export type UpdateStatsFunction = (
+  updateTeams: Teams,
+  updateWinTeam: string,
+  updateLooseTeamName: string,
+  updateType: string
+) => void;
